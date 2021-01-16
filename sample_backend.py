@@ -89,6 +89,7 @@ def get_user(id):
             elif request.method == 'DELETE':
                users['users_list'].remove(user)
                resp = jsonify(), 204
+               # resp.status_code = 204
                return resp
       resp = jsonify({"Msg": "User not found with provided id."}), 404
       return resp
