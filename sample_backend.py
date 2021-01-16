@@ -1,9 +1,14 @@
+import random
+import string
 from flask import Flask
 from flask import request
 from flask import jsonify
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
+
+def randStr(chars = string.ascii_lowercase + string.digits, N=10):
+	return ''.join(random.choice(chars) for _ in range(N))
 
 @app.route('/')
 def hello_world():
@@ -58,6 +63,7 @@ def get_users():
       return users
    elif request.method == 'POST':
       userToAdd = request.get_json()
+      userToAdd['id'] = randStr(N=6)
       users['users_list'].append(userToAdd)
       resp = jsonify(success=True)
       resp.status_code = 201 #optionally, you can always set a response code. 
