@@ -70,11 +70,26 @@ def get_users():
       # 200 is the default code for a normal response
       return resp
 
-@app.route('/users/<id>')
+# @app.route('/users/<id>')
+# def get_user(id):
+#    if id :
+#       for user in users['users_list']:
+#         if user['id'] == id:
+#            return user
+#       return ({})
+#    return users
+
+@app.route('/users/<id>', methods=['GET', 'DELETE'])
 def get_user(id):
    if id :
       for user in users['users_list']:
-        if user['id'] == id:
-           return user
-      return ({})
+         if user['id'] == id:
+            if request.method == 'GET':
+               return user
+            elif request.method == 'DELETE':
+               users['users_list'].remove(user)
+               resp = jsonify(), 204
+               return resp
+      resp = jsonify({"Msg": "User not found with provided id."}), 404
+      return resp
    return users
